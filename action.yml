@@ -1,13 +1,12 @@
-name: 'Wait'
-description: 'Wait a designated number of milliseconds'
+name: 'Check Commitlint'
+description: 'Ensure that at least one PR commit satisfies commitlint'
 inputs:
-  milliseconds:  # id of input
-    description: 'number of milliseconds to wait'
+  github_token:
+    description: 'Token used to access GitHub API'
     required: true
-    default: '1000'
-outputs:
-  time: # output will be available to future steps
-    description: 'The current time after waiting'
+  types:
+    description: 'Comma-separated list of commit types accepted'
+    required: true
 runs:
   using: 'node16'
   main: 'dist/index.js'
