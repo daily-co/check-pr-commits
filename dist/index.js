@@ -9235,7 +9235,9 @@ async function run() {
         repo: eventPayload.pull_request.repository.name,
         pull_number: eventPayload.number
       });
-      commits.filter((c) => isConventional(c.message, types));
+      if (!commits.some((c) => isConventional(c.message, types))) {
+        core.setFailed("Pull request requires a conventional commit message");
+      }
 
     }
   } catch (error) {
