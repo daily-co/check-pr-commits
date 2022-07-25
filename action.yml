@@ -1,5 +1,5 @@
-name: 'Check Commitlint'
-description: 'Ensure that at least one PR commit satisfies commitlint'
+name: 'Check PR Commits'
+description: 'Ensure that at least one PR commit satisfies conventional commits'
 inputs:
   github_token:
     description: 'Token used to access GitHub API'
