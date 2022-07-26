@@ -9230,7 +9230,7 @@ async function run() {
     if (github.context.eventName === 'pull_request') {
       const octokit = github.getOctokit(githubToken);
       const eventPayload = github.context.payload;
-      const commits = await octokit.rest.pulls.listCommits({
+      const { data: commits } = await octokit.rest.pulls.listCommits({
         owner: eventPayload.repository.owner.login,
         repo: eventPayload.repository.name,
         pull_number: eventPayload.number
