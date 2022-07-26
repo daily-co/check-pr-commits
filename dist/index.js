@@ -83594,6 +83594,7 @@ module.exports = require("zlib");
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
+var exports = __webpack_exports__;
 const format = __nccwpck_require__(55290).default;
 const lint = __nccwpck_require__(9152).default;
 const load = __nccwpck_require__(36791).default;
@@ -83606,6 +83607,7 @@ async function run() {
   try {
     const githubToken = core.getInput('github_token');
     const commitlintConfigPath = core.getInput('commitlint_config_path');
+
     if (github.context.eventName === 'pull_request') {
       const octokit = github.getOctokit(githubToken);
       const eventPayload = github.context.payload;
@@ -83614,24 +83616,31 @@ async function run() {
         repo: eventPayload.repository.name,
         pull_number: eventPayload.number
       });
-      const commitlintConfig = load({}, { file: commitlintConfigPath });
+      const commitlintConfig = await load({}, { file: commitlintConfigPath });
       const commitlintOpts = getOptsFromConfig(commitlintConfig);
-      if (!commits.some((c) => isConventional(c.commit.message, commitlintConfig.rules, commitlintOpts))) {
-        core.setFailed("Pull request requires at least one conventional commit message");
+      for (let c of commits) {
+        if (await isConventional(c.commit.message, commitlintConfig.rules, commitlintOpts)) {
+          return 0;
+        }
       }
-
+      core.setFailed("Pull request requires at least one conventional commit message");
+      return 1;
     }
   } catch (error) {
     core.setFailed(error.message);
+    return 1;
   }
 }
 
-function isConventional(message, rules, opts) {
+async function isConventional(message, rules, opts) {
   try {
-    const result = lint(message, rules, opts);
-    core.info(format({ results: result }, { color: true}));
+    const result = await lint(message, rules, opts);
+    if(!result.valid) {
+      core.info(format({ results: [result] }, { color: true }));
+    }
     return result.valid;
   } catch(error) {
+    core.error(`Error ${JSON.stringify(error)}`);
     return false;
   }
 
@@ -83650,7 +83659,9 @@ function getOptsFromConfig(commitlintConfig) {
   }
 }
 
-run();
+exports.run = run;
+
+//run();
 
 })();
 

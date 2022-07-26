@@ -1,0 +1,43 @@
+[
+  {
+    "sha": "7b84e180eb680b85a87bc2d44c0728cdccefc3ea",
+    "node_id": "MDY6Q29tbWl0MjI4OTg4MzU6N2I4NGUxODBlYjY4MGI4NWE4N2JjMmQ0NGMwNzI4Y2RjY2VmYzNlYQ==",
+    "commit": {
+      "author": {
+        "name": "Kwindla Hultman Kramer",
+        "email": "kwindla@oblong.com",
+        "date": "2015-05-09T00:15:17Z"
+      },
+      "committer": {
+        "name": "Kwindla Hultman Kramer",
+        "email": "kwindla@oblong.com",
+        "date": "2015-05-09T01:09:07Z"
+      },
+      "message": "webpack loader for superagent's elderly version of mime-js.\n\n  superagent uses an old version of mime-js, which loads\n  a couple of dependencies from the filesystem in a way\n  that defeats webpack's bundling logic. this is a very\n  small, very hacky, loader that munges the mime module\n  source code to inline those dependencies.\n\n  also, moved all of our project dependencies in package.json\n  into the \"devDependencies\" entry. in theory, we shouldn't need\n  any runtime dependencies because we're bunding the heck\n  out of everything using webpack.\n\n  and ... removed an old an now unused build tweak that was\n  once a part of our install process.",
+      "tree": {
+        "sha": "17c3a44f0eb5eec96276dffb369a8f785560a2b7",
+        "url": "https://api.github.com/repos/daily-co/pluot-core/git/trees/17c3a44f0eb5eec96276dffb369a8f785560a2b7"
+      },
+      "url": "https://api.github.com/repos/daily-co/pluot-core/git/commits/7b84e180eb680b85a87bc2d44c0728cdccefc3ea",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null
+      }
+    },
+    "url": "https://api.github.com/repos/daily-co/pluot-core/commits/7b84e180eb680b85a87bc2d44c0728cdccefc3ea",
+    "html_url": "https://github.com/daily-co/pluot-core/commit/7b84e180eb680b85a87bc2d44c0728cdccefc3ea",
+    "comments_url": "https://api.github.com/repos/daily-co/pluot-core/commits/7b84e180eb680b85a87bc2d44c0728cdccefc3ea/comments",
+    "author": null,
+    "committer": null,
+    "parents": [
+      {
+        "sha": "a443b894169dbb8a32a75dd72a60e593f147c334",
+        "url": "https://api.github.com/repos/daily-co/pluot-core/commits/a443b894169dbb8a32a75dd72a60e593f147c334",
+        "html_url": "https://github.com/daily-co/pluot-core/commit/a443b894169dbb8a32a75dd72a60e593f147c334"
+      }
+    ]
+  }
+]
