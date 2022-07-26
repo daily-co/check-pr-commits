@@ -1,4 +1,6 @@
-const child_process = require('child_process');
+const format = require('@commitlint/format').format;
+const lint = require('@commitlint/lint').default;
+const load = require('@commitlint/load').load;
 const core = require('@actions/core');
 const github = require('@actions/github');
 
@@ -16,8 +18,10 @@ async function run() {
         repo: eventPayload.repository.name,
         pull_number: eventPayload.number
       });
-      if (!commits.some((c) => isConventional(c.commit.message, commitlintConfigPath))) {
-        core.setFailed("Pull request requires a conventional commit message");
+      const commitlintConfig = load({}, { file: commitlintConfigPath });
+      const commitlintOpts = getOptsFromConfig(commitlintConfig);
+      if (!commits.some((c) => isConventional(c.commit.message, commitlintConfig.rules, commitlintOpts))) {
+        core.setFailed("Pull request requires at least one conventional commit message");
       }
 
     }
@@ -26,14 +30,28 @@ async function run() {
   }
 }
 
-function isConventional(message, commitlintConfigPath) {
+function isConventional(message, rules, opts) {
   try {
-    child_process.execSync(`npx commitlint -g ${commitlintConfigPath}`, { input: message, stdio: 'inherit' });
-    return true;
+    const result = lint(message, rules, opts);
+    core.info(format({ results: result }, { color: true}));
+    return result.valid;
   } catch(error) {
     return false;
   }
 
+}
+
+function getOptsFromConfig(commitlintConfig) {
+  return {
+    parserOpts:
+      commitlintConfig.parserPreset != null && commitlintConfig.parserPreset.parserOpts != null
+        ? commitlintConfig.parserPreset.parserOpts
+        : {},
+    plugins: commitlintConfig.plugins != null ? commitlintConfig.plugins : {},
+    ignores: commitlintConfig.ignores != null ? commitlintConfig.ignores : [],
+    defaultIgnores:
+      commitlintConfig.defaultIgnores != null ? commitlintConfig.defaultIgnores : true,
+  }
 }
 
 run();
