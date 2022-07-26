@@ -11,8 +11,8 @@ async function run() {
       const octokit = github.getOctokit(githubToken);
       const eventPayload = github.context.payload;
       const commits = octokit.rest.pulls.listCommits({
-        owner: eventPayload.pull_request.repository.owner.login,
-        repo: eventPayload.pull_request.repository.name,
+        owner: eventPayload.repository.owner.login,
+        repo: eventPayload.repository.name,
         pull_number: eventPayload.number
       });
       if (!commits.some((c) => isConventional(c.message, types))) {
