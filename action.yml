@@ -4,8 +4,8 @@ inputs:
   github_token:
     description: 'Token used to access GitHub API'
     required: true
-  types:
-    description: 'Comma-separated list of commit types accepted'
+  commitlint_config_path:
+    description: 'Path to commitlint config'
     required: true
 runs:
   using: 'node16'

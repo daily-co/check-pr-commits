@@ -9073,6 +9073,14 @@ module.exports = require("assert");
 
 /***/ }),
 
+/***/ 3129:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("child_process");
+
+/***/ }),
+
 /***/ 8614:
 /***/ ((module) => {
 
@@ -9218,6 +9226,7 @@ module.exports = require("zlib");
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
+const child_process = __nccwpck_require__(3129);
 const core = __nccwpck_require__(2186);
 const github = __nccwpck_require__(5438);
 
@@ -9226,7 +9235,7 @@ const github = __nccwpck_require__(5438);
 async function run() {
   try {
     const githubToken = core.getInput('github_token');
-    const types = core.getInput('types').split(',');
+    const commitlintConfigPath = core.getInput('commitlint_config_path');
     if (github.context.eventName === 'pull_request') {
       const octokit = github.getOctokit(githubToken);
       const eventPayload = github.context.payload;
@@ -9235,7 +9244,7 @@ async function run() {
         repo: eventPayload.repository.name,
         pull_number: eventPayload.number
       });
-      if (!commits.some((c) => isConventional(c.commit.message, types))) {
+      if (!commits.some((c) => isConventional(c.commit.message, commitlintConfigPath))) {
         core.setFailed("Pull request requires a conventional commit message");
       }
 
@@ -9245,8 +9254,13 @@ async function run() {
   }
 }
 
-function isConventional(message, types) {
-  return types.some(t => message.startsWith(`${t}: `));
+function isConventional(message, commitlintConfigPath) {
+  try {
+    child_process.execSync(`npx commitlint -g ${commitlintConfigPath}`, { input: message, stdio: 'inherit' });
+    return true;
+  } catch(error) {
+    return false;
+  }
 
 }
 
