@@ -1,6 +1,6 @@
-const { format } = require('@commitlint/format').default;
-const { lint } = require('@commitlint/lint').default;
-const { load } = require('@commitlint/load').default;
+const format = require('@commitlint/format').default;
+const lint = require('@commitlint/lint').default;
+const load = require('@commitlint/load').default;
 const core = require('@actions/core');
 const github = require('@actions/github');
 

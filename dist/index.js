@@ -83594,9 +83594,9 @@ module.exports = require("zlib");
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
-const { format } = __nccwpck_require__(55290).default;
-const { lint } = __nccwpck_require__(9152).default;
-const { load } = __nccwpck_require__(36791).default;
+const format = __nccwpck_require__(55290).default;
+const lint = __nccwpck_require__(9152).default;
+const load = __nccwpck_require__(36791).default;
 const core = __nccwpck_require__(42186);
 const github = __nccwpck_require__(95438);
 
