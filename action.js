@@ -30,7 +30,8 @@ async function run() {
       return 1;
     }
   } catch (error) {
-    core.setFailed(error.message);
+    console.error(error.message, error);
+    core.setFailed(error.message, error);
     return 1;
   }
 }
