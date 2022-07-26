@@ -10,7 +10,7 @@ test('run with Conforming commit', async () => {
     .get('/repos/daily-co/pluot-core/pulls/5736/commits')
     .replyWithFile(200, __dirname + '/commits-success.json', { 'Content-type': 'application/json' });
 
-  const action = require('./index');
+  const action = require('./action');
   const returnValue = await action.run();
   expect(returnValue).toBe(0);
 
@@ -26,7 +26,7 @@ test('run with non-compliant commit', async () => {
     .get('/repos/daily-co/pluot-core/pulls/5736/commits')
     .replyWithFile(200, __dirname + '/commits-failure.json', { 'Content-type': 'application/json' });
 
-  const action = require('./index');
+  const action = require('./action');
   const returnValue = await action.run();
   expect(returnValue).toBe(1);
 
